@@ -8,6 +8,7 @@ export default function Home() {
 
     const mutation = useMutation({
         onSuccess: (data) => {
+            console.log(data)
             setData(data.poem || data.news)
         },
         mutationFn: ({textType,input}) => {
@@ -33,9 +34,9 @@ export default function Home() {
                  <button className="bg-purple-50 text-indigo-500 text-sm p-1 ml-0.5 font-bold" onClick={()=>{mutation.mutate({textType:"poem", input:inputText})}}>{"Generate Poem"}</button>
                  <button className="bg-pink-50 text-pink-500 rounded-tr-2xl rounded-br-2xl text-sm ml-0.5 p-1 font-bold" onClick={()=>{mutation.mutate({textType:"news", input:inputText})}}>{"Generate News"}</button>
              </div>
-             <div className="mt-6 text-left bg-black/30 backdrop-opacity-10 rounded-2xl p-4 mb-20">
+             <div className="mt-6 text-left bg-black/30 backdrop-opacity-10 rounded-2xl p-4 mb-20 w-[100%]">
                  <h6 className="text-lg font-bold">Generated text:</h6>
-                 <pre>
+                 <pre className="generated-text">
 
                      { mutation.isLoading? "loading..." :
                          (
