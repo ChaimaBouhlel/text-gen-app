@@ -1,6 +1,7 @@
 import {useState} from "react";
 import axios from "axios";
 import {useMutation} from "@tanstack/react-query";
+import { log } from "console";
 
 
 
@@ -10,11 +11,11 @@ export default function Home() {
 
     const mutation = useMutation({
         onSuccess: (data) => {
-            setData(data)
+            setData(data.poem)
         },
         mutationFn: (input) => {
             console.log(input)
-            return axios.post("http://localhost:5000/generate_poem", input).then(res => res.data.json())
+            return axios.post("http://localhost:5000/generate_poem", input).then(response => response.data)
         }
     })
 
