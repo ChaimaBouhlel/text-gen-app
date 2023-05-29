@@ -4,12 +4,24 @@ import {useMutation} from "@tanstack/react-query";
 
 export default function Home() {
     const [data, setData] = useState(null);
-    const [inputText, setInputText] = useState("")
+    const [inputText, setInputText] = useState("");
+    const [text, setText] = useState("")
+
+    let i = 0;
+    const speed = 50;
+    const typeWriter = () => {
+        if (i < data.length) {
+            setText(text+data.charAt(i));
+            i++;
+            setTimeout(typeWriter, speed);
+        }
+    }
 
     const mutation = useMutation({
         onSuccess: (data) => {
             console.log(data)
             setData(data.poem || data.news)
+            typeWriter()
         },
         mutationFn: ({textType,input}) => {
             console.log(input)
@@ -18,6 +30,7 @@ export default function Home() {
     })
 
     const handleChange = (e) => {setInputText(e.target.value)}
+
     return (
       <>
          <div className="text-center pt-32 px-[15%] lg:px-[25%]">
@@ -37,12 +50,11 @@ export default function Home() {
              <div className="mt-6 text-left bg-black/30 backdrop-opacity-10 rounded-2xl p-4 mb-20 w-[100%]">
                  <h6 className="text-lg font-bold">Generated text:</h6>
                  <pre className="generated-text">
-
                      { mutation.isLoading? "loading..." :
                          (
                          ! data ? "No poem or news yet"
                             :
-                                 data
+                                 text
                          )}
                  </pre>
              </div>
